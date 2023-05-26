@@ -6,7 +6,7 @@ end
 class Paddle
   def initialize
     @x = 240
-    @y = 590
+    @y = 600
   end 
 
   def move_left
