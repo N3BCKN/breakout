@@ -8,11 +8,14 @@ class Ball
   attr_reader :x, :y 
 
   def initialize
-    reset
+    @x = WIDTH /  2
+    @y = HEIGHT - HEIGHT / 2.5 
+    @x_velocity = 0
+    @y_velocity = 3
   end 
 
   def draw
-    Circle.new(x: @x, y: @y, radius: 5, color: 'blue')
+    Circle.new(x: @x, y: @y, radius: 5, color: 'white')
   end
 
   def move 
@@ -30,8 +33,6 @@ class Ball
   def reset
     @x = WIDTH /  2
     @y = HEIGHT - HEIGHT / 3 
-    @x_velocity = rand(3..5)
-    @y_velocity = rand(2..4)
   end
 
   def hit_wall? 
@@ -54,15 +55,19 @@ class Paddle
   end 
 
   def move_left
-    @x -= 7 unless @x - 7 <= 0 
+    @x -= 9 unless @x - 9 <= 0 
   end 
 
   def move_right
-    @x += 7 unless @x + 47 >= WIDTH 
+    @x += 9 unless @x + 49 >= WIDTH 
   end
 
   def draw 
     Rectangle.new(x: @x, y: @y, width: 40, height: 10, color: 'red')
+  end
+
+  def mid_position
+    @x + 20 
   end
 
   def hit_ball?(x,y)
@@ -94,6 +99,10 @@ score = 0
 lifes = 3
 bricks = []
 
+def draw_score(score)
+  Text.new(score, x: 30, y: 30, size: 30, color: 'white')
+end 
+
 8.times do |i|
   if (0..1).include? i
     color = 'yellow'
@@ -116,6 +125,7 @@ update do
 
   ball.draw
   ball.move
+  draw_score(score)
 
   bricks.each_with_index do |brick, index|
     brick.draw
@@ -123,15 +133,15 @@ update do
     if brick.draw.contains?(ball.x, ball.y)
       bricks = bricks.reject.with_index{|_, i| i == index }
       
-      score += 1 
-      ball.x_velocity *= -1
+      score += 10 
+      # ball.x_velocity *= -1
       ball.y_velocity *= -1
     end
   end
 
   if player.hit_ball?(ball.x, ball.y)
-    ball.x_velocity *= -1
     ball.y_velocity *= -1
+    ball.x_velocity = (ball.x - player.mid_position) * 0.15
   end
 
   if ball.hit_bottom?
