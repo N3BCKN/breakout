@@ -8,10 +8,7 @@ class Ball
   attr_reader :x, :y 
 
   def initialize
-    @x = WIDTH /  2
-    @y = HEIGHT - HEIGHT / 2.5 
-    @x_velocity = 0
-    @y_velocity = 3
+    reset
   end 
 
   def draw
@@ -32,7 +29,9 @@ class Ball
 
   def reset
     @x = WIDTH /  2
-    @y = HEIGHT - HEIGHT / 3 
+    @y = HEIGHT - HEIGHT / 2.5 
+    @x_velocity = 0
+    @y_velocity = 3
   end
 
   def hit_wall? 
@@ -96,7 +95,7 @@ set title: 'breakout'
 player = Paddle.new
 ball = Ball.new
 score = 0 
-lifes = 3
+lifes = 4
 bricks = []
 
 def draw_score(score)
@@ -124,7 +123,7 @@ update do
   clear 
 
   ball.draw
-  ball.move
+  player.draw 
   draw_score(score)
 
   bricks.each_with_index do |brick, index|
@@ -134,10 +133,19 @@ update do
       bricks = bricks.reject.with_index{|_, i| i == index }
       
       score += 10 
-      # ball.x_velocity *= -1
       ball.y_velocity *= -1
     end
   end
+
+  if lifes == 0
+    Text.new('Game Over', x: WIDTH/2 - 160, y: HEIGHT/2, size: 60, color: 'red')
+    next
+  elsif bricks.size == 0
+    Text.new('You won!', x: WIDTH/2 - 130, y: HEIGHT/4, size: 60, color: 'green')
+    next
+  end 
+
+  ball.move
 
   if player.hit_ball?(ball.x, ball.y)
     ball.y_velocity *= -1
@@ -146,17 +154,18 @@ update do
 
   if ball.hit_bottom?
     ball.reset
+    lifes -= 1
   end
-
-  player.draw 
 end
 
 on :key_held do |event|
-  if event.key == 'left'
-    player.move_left
-  elsif event.key == 'right'
-    player.move_right
-  end
+  if lifes > 0
+    if event.key == 'left'
+      player.move_left
+    elsif event.key == 'right'
+      player.move_right
+    end
+  end 
 end 
 
 show 
