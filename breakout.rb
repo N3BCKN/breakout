@@ -1,92 +1,11 @@
 require 'ruby2d'
 
+require './paddle'
+require './ball'
+require './brick'
+
 WIDTH = 480
 HEIGHT = 600
-
-class Ball
-  attr_accessor :x_velocity, :y_velocity
-  attr_reader :x, :y 
-
-  def initialize
-    reset
-  end 
-
-  def draw
-    Circle.new(x: @x, y: @y, radius: 5, color: 'white')
-  end
-
-  def move 
-    @x += @x_velocity
-    @y += @y_velocity
-
-    @x_velocity *= -1 if hit_wall? 
-
-    if hit_top?
-      @x_velocity *= -1
-      @y_velocity *= -1
-    end 
-  end
-
-  def reset
-    @x = WIDTH /  2
-    @y = HEIGHT - HEIGHT / 2.5 
-    @x_velocity = 0
-    @y_velocity = 3
-  end
-
-  def hit_wall? 
-    @x >= WIDTH || @x <= 0 
-  end
-
-  def hit_top?
-    @y <= 0
-  end
-
-  def hit_bottom?
-    @y >= HEIGHT
-  end
-end
-
-class Paddle
-  def initialize
-    @x = WIDTH / 2 
-    @y = HEIGHT - 10
-  end 
-
-  def move_left
-    @x -= 9 unless @x - 9 <= 0 
-  end 
-
-  def move_right
-    @x += 9 unless @x + 49 >= WIDTH 
-  end
-
-  def draw 
-    Rectangle.new(x: @x, y: @y, width: 40, height: 10, color: 'red')
-  end
-
-  def mid_position
-    @x + 20 
-  end
-
-  def hit_ball?(x,y)
-    draw.contains?(x,y)
-  end
-end 
-
-class Brick
-  attr_reader :x, :y
-  
-  def initialize(x, y, color)
-    @x = x 
-    @y = y
-    @color = color  
-  end
-
-  def draw
-    Rectangle.new(x: @x, y: @y, width: 47 , height: 19, color: @color)
-  end
-end
 
 set width: WIDTH
 set height: HEIGHT
