@@ -1,8 +1,9 @@
 require 'ruby2d'
 
-require './paddle'
-require './ball'
-require './brick'
+
+require './lib/paddle'
+require './lib/ball'
+require './lib/brick'
 
 WIDTH = 480
 HEIGHT = 600
