@@ -29,15 +29,16 @@ class Ball
     @y_velocity = 3
   end
 
+  def hit_bottom?
+    @y >= HEIGHT
+  end
+
+  private
   def hit_wall? 
     @x >= WIDTH || @x <= 0 
   end
 
   def hit_top?
     @y <= 0
-  end
-
-  def hit_bottom?
-    @y >= HEIGHT
   end
 end

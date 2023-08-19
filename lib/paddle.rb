@@ -13,7 +13,7 @@ class Paddle
   end
 
   def draw 
-    Rectangle.new(x: @x, y: @y, width: 40, height: 10, color: 'red')
+    @shape = Rectangle.new(x: @x, y: @y, width: 40, height: 10, color: 'red')
   end
 
   def mid_position
@@ -21,6 +21,6 @@ class Paddle
   end
 
   def hit_ball?(x,y)
-    draw.contains?(x,y)
+    @shape.contains?(x,y)
   end
 end 

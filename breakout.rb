@@ -1,6 +1,5 @@
 require 'ruby2d'
 
-
 require './lib/paddle'
 require './lib/ball'
 require './lib/brick'
@@ -49,7 +48,7 @@ update do
   bricks.each_with_index do |brick, index|
     brick.draw
 
-    if brick.draw.contains?(ball.x, ball.y)
+    if brick.shape.contains?(ball.x, ball.y)
       bricks = bricks.reject.with_index{|_, i| i == index }
       
       score += 10 

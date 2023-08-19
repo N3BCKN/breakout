@@ -1,5 +1,5 @@
 class Brick
-  attr_reader :x, :y
+  attr_reader :x, :y, :shape
   
   def initialize(x, y, color)
     @x = x 
@@ -8,6 +8,6 @@ class Brick
   end
 
   def draw
-    Rectangle.new(x: @x, y: @y, width: 47 , height: 19, color: @color)
+    @shape = Rectangle.new(x: @x, y: @y, width: 47 , height: 19, color: @color)
   end
 end
