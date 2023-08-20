@@ -78,7 +78,7 @@ update do
 end
 
 on :key_held do |event|
-  if lifes > 0
+  if lifes > 0 || bricks.size == 0
     if event.key == 'left'
       player.move_left
     elsif event.key == 'right'
